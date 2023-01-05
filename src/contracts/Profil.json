@@ -1,0 +1,342 @@
+[
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_instaLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_tiktokLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_onlyfansLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_snapLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_youtubeLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_twitterLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_twitchLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_patreonLink",
+            "type": "string"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct profil.userProfil",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "name": "profilCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addInstaLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addOnlyfansLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addPatreonLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addSnapLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addTiktokLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addTwitchLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_link",
+        "type": "string"
+      }
+    ],
+    "name": "addYoutubeLink",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "instaLink",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "tiktokLink",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "onlyfansLink",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "snapLink",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "youtubeLink",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "twitterLink",
+        "type": "string"
+      }
+    ],
+    "name": "createProfil",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "seeAllProfils",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_instaLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_tiktokLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_onlyfansLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_snapLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_youtubeLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_twitterLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_twitchLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_patreonLink",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct profil.userProfil[]",
+        "name": "_allProfils",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_userAddress",
+        "type": "address"
+      }
+    ],
+    "name": "seeProfil",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_instaLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_tiktokLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_onlyfansLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_snapLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_youtubeLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_twitterLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_twitchLink",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_patreonLink",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct profil.userProfil",
+        "name": "_profil",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
