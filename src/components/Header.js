@@ -8,7 +8,7 @@ function Header() {
     <Container>
       <Logo>ROK</Logo>
       <Menu>
-        <Text style={{color: "#3B3395"}}>Profil</Text>
+        <Text style={{color: "#3B3395"}}>Profile</Text>
         <Text2 style={{color: "#BAA570"}}>Discover</Text2>
         <Text2 style={{color: "#BAA570"}}>Exchange</Text2>
         <Launch>

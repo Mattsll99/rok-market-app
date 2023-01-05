@@ -55,7 +55,7 @@ function Profil() {
     return (
       <Container>
         <Top>
-          <Title>Create profil</Title>
+          <Title>Create profile</Title>
         </Top>
         <Body>
           <Left></Left>
