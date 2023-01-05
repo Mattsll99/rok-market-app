@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React, { useEffect } from 'react'; 
 import styled from 'styled-components'
 import { useContractRead } from 'wagmi';
 import { useProvider } from 'wagmi';
@@ -8,9 +8,15 @@ import { hexDataLength } from 'ethers/lib/utils.js';
 
 const contractAddress = process.env.NEW_PROFIL;
 
+let youtubeLink;
+let instaLink; 
+let twitterLink; 
+let tiktokLink; 
+let twitchLink; 
+let onlyfansLink; 
+let patreonLink;
+
 function Registerd() {
-  //Get the name and then bracket
-  //Get the links
 
   const provider = useProvider(); 
   const {address, isConnecting, isDisconnected} = useAccount();
@@ -24,8 +30,17 @@ function Registerd() {
     watch: true,
   })
 
+  
 
-
+  useEffect(() => {
+    youtubeLink = data._youtubeLink; 
+    instaLink = data._instaLink; 
+    twitterLink = data._twitterLink; 
+    tiktokLink = data._tiktokLink; 
+    twitchLink = data._twitchLink; 
+    onlyfansLink = data._onlyfansLink; 
+    patreonLink = data._patreonLink;
+  }, [])
 
   return (
     <Container>
@@ -33,7 +48,7 @@ function Registerd() {
       <Wrapper>
         <TopWrap>{data._name}</TopWrap>
         <BodyWrap>
-          <Link href={data._youtubeLink}><Capsule>Youtube</Capsule></Link>
+          <Link href={youtubeLink}><Capsule>Youtube</Capsule></Link>
           <Link href={data._instaLink}><Capsule>Instagram</Capsule></Link>
           <Link href={data._twitterLink}><Capsule>Twitter</Capsule></Link>
           <Link href={data._tiktokLink}><Capsule>Tiktok</Capsule></Link>
