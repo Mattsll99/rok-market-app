@@ -8,6 +8,7 @@ import { hexDataLength } from 'ethers/lib/utils.js';
 
 const contractAddress = process.env.NEW_PROFIL;
 
+let name;
 let youtubeLink;
 let instaLink; 
 let twitterLink; 
@@ -33,6 +34,7 @@ function Registerd() {
   
 
   useEffect(() => {
+    name = data._name;
     youtubeLink = data._youtubeLink; 
     instaLink = data._instaLink; 
     twitterLink = data._twitterLink; 
@@ -46,15 +48,15 @@ function Registerd() {
     <Container>
       <LeftContainer>
       <Wrapper>
-        <TopWrap>{data._name}</TopWrap>
+        <TopWrap>{name}</TopWrap>
         <BodyWrap>
           <Link href={youtubeLink}><Capsule>Youtube</Capsule></Link>
-          <Link href={data._instaLink}><Capsule>Instagram</Capsule></Link>
-          <Link href={data._twitterLink}><Capsule>Twitter</Capsule></Link>
-          <Link href={data._tiktokLink}><Capsule>Tiktok</Capsule></Link>
-          <Link href={data._twitchLink}><Capsule>Twitch</Capsule></Link>
-          <Link href={data._onlyfansLink}><Capsule>Onlyfans</Capsule></Link>
-          <Link href={data._patreonLink}><Capsule>Patreon</Capsule></Link>
+          <Link href={instaLink}><Capsule>Instagram</Capsule></Link>
+          <Link href={twitterLink}><Capsule>Twitter</Capsule></Link>
+          <Link href={tiktokLink}><Capsule>Tiktok</Capsule></Link>
+          <Link href={twitchLink}><Capsule>Twitch</Capsule></Link>
+          <Link href={onlyfansLink}><Capsule>Onlyfans</Capsule></Link>
+          <Link href={patreonLink}><Capsule>Patreon</Capsule></Link>
         </BodyWrap>
       </Wrapper>
       
