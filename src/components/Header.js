@@ -1,20 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 //import ConnectButton from './ConnectButton';
+import { Link } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 function Header() {
   return (
     <Container>
       <Logo>ROK</Logo>
-      <Menu>
-        <Text style={{color: "#3B3395"}}>Profile</Text>
-        <Text2 style={{color: "#BAA570"}}>Discover</Text2>
-        <Text2 style={{color: "#BAA570"}}>Exchange</Text2>
-        <Launch>
-        <Text2>Launch</Text2>
-        </Launch>
-      </Menu>
       <ConnectButton
         showBalance={false}
       />
@@ -49,7 +42,8 @@ const Logo = styled.text`
 
 const Menu = styled.div`
   height: 50%; 
-  width: 40%; 
+  width: 20%; 
+  padding: 20px;
   background: transparent;
   display: flex; 
   flex-direction: row;
@@ -65,12 +59,18 @@ const Menu = styled.div`
   }
 `; 
 
-const Text = styled.text`
+const linkStyle = {
+  textDecoration: "none", 
+  color: '#FFFFFF', 
+  font: "abril-fatface",
+}
+
+const Text = styled.li`
   font-family: abril fatface;
   font-weight: 200;
   background: transparent;
   cursor: pointer;
-  
+  //text-decoration: none;
 `; 
 
 const Text2 = styled(Text)`
@@ -94,3 +94,4 @@ const Launch = styled.div`
     display: none
   }
 `;
+
