@@ -57,15 +57,17 @@ function Dashboard() {
   twitterLink = data._twitterLink; 
   tiktokLink = data._tiktokLink; 
   onlyfansLink = data._onlyfansLink; */
+  var userNotConnected;
+
  
-  if(isDisconnected === true) {
+  /*if(userNotConnected=== true) {
     return (
       <Container>
         <CreateProfil />
       </Container>
     )
-  }
-  else if (isDisconnected === false && name !== "") {
+  }*/
+  if (isDisconnected === false && name !=="") {
       return (
         <Container>
           <TopDashboard />
@@ -73,13 +75,13 @@ function Dashboard() {
         </Container>
       )
   }
-  /*else {
+  else {
       return (
         <Container>
           <CreateProfil />
         </Container>
       )
-    }*/
+    }
   }
 
 
