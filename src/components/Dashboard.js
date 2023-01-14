@@ -33,7 +33,7 @@ function Dashboard() {
     watch: true,
   })
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (isDisconnected === false) {
       name = data._name;
       youtubeLink = data._youtubeLink;
@@ -49,7 +49,7 @@ function Dashboard() {
       tiktokLink = ""; 
       onlyfansLink = "";
     }
-  }, [])*/
+  }, [])
 
   /*name = data._name;
   youtubeLink = data._youtubeLink;
@@ -58,6 +58,8 @@ function Dashboard() {
   tiktokLink = data._tiktokLink; 
   onlyfansLink = data._onlyfansLink; */
   var userNotConnected;
+
+  console.log(twitterLink);
 
  
   /*if(userNotConnected=== true) {
@@ -74,6 +76,13 @@ function Dashboard() {
           <Launch />
         </Container>
       )
+  }
+  else if (isDisconnected === false && name == ""){
+    return (
+       <Container>
+          <CreateProfil />
+        </Container>
+    )
   }
   else {
       return (
