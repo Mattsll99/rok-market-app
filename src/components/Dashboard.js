@@ -65,24 +65,23 @@ function Dashboard() {
       </Container>
     )
   }
-  else if (isDisconnected === false) {
-    if(data !== "") {
+  else if (isDisconnected === false && name !== "") {
       return (
         <Container>
           <TopDashboard />
           <Launch />
         </Container>
       )
-    } 
-    else {
+  }
+  /*else {
       return (
         <Container>
           <CreateProfil />
         </Container>
       )
-    }
+    }*/
   }
-}
+
 
 export default Dashboard
 

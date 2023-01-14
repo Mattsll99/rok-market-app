@@ -25,21 +25,19 @@ function Launch() {
   const [supply, setSupply] = useState("0"); 
   const [keep, setKeep] = useState("0");     
   const [price, setPrice] = useState("0");
- 
-  /*var formatedSupply =  ethers.utils.formatUnits(supply, "wei");
-  var formatedKeep =  ethers.utils.formatUnits(keep, "wei");
-  var formatedPrice =  ethers.utils.formatUnits(price, "wei");*/
-  var formatedSupply = ethers.utils.parseUnits(supply, 18);
-  var formatedKeep = ethers.utils.parseUnits(keep, 18);
-  var formatedPrice = ethers.utils.parseUnits(price, 18);
 
+  const test = ethers.utils.parseEther(supply).toString();
+  console.log(test);
+
+  const digitKeep = (keep/100).toString();
+  
 
   const {config} = usePrepareContractWrite({
     address: '0x88CA06998F7498e58fE28a17f230477354ba92B8', 
     abi: ExchangeInterface, 
     functionName: 'launchToken', 
     signerOrProvider: provider,
-    args: [name, symbol, ethers.utils.parseEther(supply.toString()), ethers.utils.parseEther(keep.toString()), ethers.utils.parseEther(price.toString())],
+    args: [name, symbol, ethers.utils.parseEther(supply).toString(), ethers.utils.parseEther(digitKeep).toString(), ethers.utils.parseEther(price).toString()],
   })
 
   const {data, isLoading, isSuccess, write} = useContractWrite(config);
@@ -61,7 +59,7 @@ function Launch() {
       <Input placeholder='Symbol' value={symbol} onChange={(e) => setSymbol(e.target.value)}/>
       </Row2>
       <Row>
-      <Input placeholder='Supply' value={supply} onChange={(e) => setSupply(e.target.value)}/>
+      <Input placeholder="0" value={supply} onChange={(e) => setSupply(e.target.value)}/>
       </Row>
       <Row2>
       <Input placeholder='You keep (max 10%)' value={keep} onChange={(e) => setKeep(e.target.value)}/>
