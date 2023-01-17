@@ -60,7 +60,7 @@ function Exchange() {
         </Top>
         <Body>
         {
-            data.map((token, i) => (
+            data?.map((token, i) => (
               <Row 
                 creator={token._deployerAddress.substring(0,5)+"..."+token._deployerAddress.substring(38)}
                 symbol={token._tokenSymbol}
