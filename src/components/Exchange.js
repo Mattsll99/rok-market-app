@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import {useContractRead} from 'wagmi'
 import { useProvider } from 'wagmi';
@@ -35,8 +35,11 @@ function Exchange() {
     watch: true,
   })
 
+  var creatorData
   //console.log(data)
-
+  useEffect(() => {
+    creatorData = data; 
+  }, [])
 
   //1 access the data array 
   //2 for each address in data array execute the getProfil function 
@@ -66,11 +69,6 @@ function Exchange() {
               />
             ))
           }
-          <Row 
-            creator= "ADNL"
-            symbol="$MUSK"
-            price="0.006 "
-           />
         </Body>
       </Left>
       <Dashboard />
