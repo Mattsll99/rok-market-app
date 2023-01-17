@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Trade from './Trade'
 
-function Row({creator, symbol, price}) {
+function Row({creator, symbol, price, creatorAddress}) {
   const [isShown, setIsShown] = useState(false);
 
   const showTrade = () => {
@@ -20,12 +20,12 @@ function Row({creator, symbol, price}) {
           <ProfilPic></ProfilPic>
           <Name>{creator}</Name>
         </Section>
-        <Section>
+        <Section2>
           <Name>{symbol}</Name>
-        </Section>
-        <Section>
-          <Name>{price }MATIC</Name>
-        </Section>
+        </Section2>
+        <Section2>
+          <Name>{price+" "}MATIC</Name>
+        </Section2>
       </Menu>
       <Right>
       <Button onClick={showTrade}>
@@ -34,7 +34,9 @@ function Row({creator, symbol, price}) {
       {isShown === true && 
       <Wrapper>
         <CloseButton onClick={hideTrade}>Close</CloseButton>
-        <Trade />
+        <Trade 
+          creatorAddress={creatorAddress}
+        />
       </Wrapper>}
       </Right>
     </Container>
@@ -122,6 +124,10 @@ const Section = styled.div`
   align-items: center;
   overflow: scroll;
 `; 
+
+const Section2 = styled(Section)`
+  justify-content: end;
+`;
 
 const ProfilPic = styled.div`
   height: 44px; 

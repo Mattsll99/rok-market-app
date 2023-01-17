@@ -35,7 +35,7 @@ function TopDashboard() {
     onlyfansLink = data._onlyfansLink; 
   }, [])
 
-  console.log(twitterLink);
+  //console.log(twitterLink);
 
   return (
    <Container>

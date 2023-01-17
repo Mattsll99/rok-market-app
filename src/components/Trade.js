@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import BuyToken from './BuyToken';
 import SellToken from './SellToken';
 
-function Trade() {
+function Trade({creatorAddress}) {
   //Query the tokenAddress
   //Query the seller address; 
   //Query all the buy offers
   //Querry all the sell offers
   //For each row map the right Trade component with the token address
+
+  //Ensuite on utilise creatorAddress pour render data et execution function
 
   const[buy, setBuy] = useState(true); 
   const [sell, setSell] = useState(false);
@@ -69,7 +71,7 @@ function Trade() {
           <Title onClick={sellRoute}>Sell</Title>
         </Top>
         <Body>
-          {buy === true && <BuyToken />}
+          {buy === true && <BuyToken creatorAddress={creatorAddress}/>}
           {sell === true && <SellToken />}
         </Body>
       </Wrapper>

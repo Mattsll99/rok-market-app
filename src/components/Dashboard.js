@@ -6,6 +6,7 @@ import TopDashboard from './TopDashboard';
 import { useContractRead } from 'wagmi';
 import { useProvider } from 'wagmi';
 import profilInterface from "../contracts/Profil.json";
+import exchangeInterface from "../contracts/Exchange.json"
 import {useAccount} from "wagmi";
 import Bottomdashboard from './Bottomdashboard';
 
@@ -16,6 +17,7 @@ let snapLink
 let twitterLink; 
 let tiktokLink; 
 let onlyfansLink; 
+let tokenBalance;
 
 
 function Dashboard() {
@@ -33,14 +35,26 @@ function Dashboard() {
     watch: true,
   })
 
-  useEffect(() => {
+  /*const {tokenData, isTokenError, isTokenLoading} = useContractRead({
+    address: '0xBbB9CEfBcf0f4B2527Dc147840642d8Efdf55235', 
+    abi: profilInterface, 
+    functionName: "seeProfil",
+    signerOrProvider: provider, 
+    args: [address], 
+    watch: true,
+  })*/
+
+  //0x09d68de4A710dD5c7fE5f891C686667B7fD23849
+
+  /*useEffect(() => {
     if (isDisconnected === false) {
       name = data._name;
       youtubeLink = data._youtubeLink;
       instaLink = data._instaLink; 
       twitterLink = data._twitterLink; 
       tiktokLink = data._tiktokLink; 
-      onlyfansLink = data._onlyfansLink; 
+      onlyfansLink = data._onlyfansLink;
+      //tokenBalance = tokenData;
     } else {
       name =""; 
       youtubeLink = ""; 
@@ -49,7 +63,11 @@ function Dashboard() {
       tiktokLink = ""; 
       onlyfansLink = "";
     }
-  }, [])
+  }, [])*/
+
+  //console.log(tokenData)
+
+  //console.log(data)
 
   /*name = data._name;
   youtubeLink = data._youtubeLink;
@@ -59,9 +77,9 @@ function Dashboard() {
   onlyfansLink = data._onlyfansLink; */
   var userNotConnected;
 
-  console.log(twitterLink);
+  //console.log(twitterLink);
 
- 
+ console.log(data)
   /*if(userNotConnected=== true) {
     return (
       <Container>
@@ -69,7 +87,8 @@ function Dashboard() {
       </Container>
     )
   }*/
-  if (isDisconnected === false && name !=="") {
+
+  if (isDisconnected === false && data !== undefined) {
       return (
         <Container>
           <TopDashboard />
@@ -77,7 +96,7 @@ function Dashboard() {
         </Container>
       )
   }
-  else if (isDisconnected === false && name == ""){
+  else if (isDisconnected === false && data == undefined){
     return (
        <Container>
           <CreateProfil />

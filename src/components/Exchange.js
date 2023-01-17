@@ -5,6 +5,8 @@ import { useProvider } from 'wagmi';
 import Dashboard from './Dashboard';
 import Row from './Row';
 import exchangeInterface from '../contracts/Exchange.json';
+import profilInterface from '../contracts/Profil.json';
+import { ethers } from 'ethers';
 
 function Exchange() {
   //1. Accéder à tous les tokens
@@ -25,13 +27,22 @@ function Exchange() {
   })*/
   const provider = useProvider();
 
-  /*const {data, isError, isLoading} = useContractRead({
-    address: '0x0e3aa970e8147BB7b0937d7d1354F884B1301179', 
+  const {data, isError, isLoading} = useContractRead({
+    address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
     abi: exchangeInterface,
-    functionName: "seeAllDeployers", 
+    functionName: "getAllDeployers", 
     signerOrProvider: provider, 
     watch: true,
-  })*/
+  })
+
+  //console.log(data)
+
+
+  //1 access the data array 
+  //2 for each address in data array execute the getProfil function 
+  //Only Render the name, the token symbol, the token price
+
+  //console.log(data)
 
 
   return (
@@ -39,57 +50,27 @@ function Exchange() {
       <Left>
         <Top>
           <Wrapper>
-          <Menu>Creator</Menu>
-          <Menu>Token</Menu>
-          <Menu>Price</Menu>
+            <Menu>Creator</Menu>
+            <Menu style={{marginLeft: "12vw"}}>Token</Menu>
+            <Menu>Price</Menu>
           </Wrapper>
         </Top>
         <Body>
-         <Row 
-          creator="Elon Musk"
-          symbol="$MUSK"
-          price="0.006 "
-         />
+        {
+            data.map((token, i) => (
+              <Row 
+                creator={token._deployerAddress.substring(0,5)+"..."+token._deployerAddress.substring(38)}
+                symbol={token._tokenSymbol}
+                price={ethers.utils.formatEther((token._tokenPrice).toString())}
+                creatorAddress={token._deployerAddress}
+              />
+            ))
+          }
           <Row 
-          creator="Cardi B"
-          symbol="$CARDI"
-          price="0.006 "
-         />
-          <Row 
-          creator="MR Beast"
-          symbol="$BEAST"
-          price="0.006 "
-         />
-          <Row 
-          creator="Charlie D'Amelio"
-          symbol="$CHRL"
-          price="0.006 "
-         />
-          <Row 
-          creator="Logan Paul"
-          symbol="$LPT"
-          price="0.006 "
-         />
-          <Row 
-          creator="Taylor Swift "
-          symbol="$SWIFT"
-          price="0.006 "
-         />
-          <Row 
-          creator="IShowSpeed"
-          symbol="$SPEED"
-          price="0.006 "
-         />
-          <Row 
-          creator="Jake Paul"
-          symbol="$JPT"
-          price="0.006 "
-         />
-          <Row 
-          creator="ADNL"
-          symbol="$ADNL"
-          price="0.006 "
-         />
+            creator= "ADNL"
+            symbol="$MUSK"
+            price="0.006 "
+           />
         </Body>
       </Left>
       <Dashboard />
@@ -164,3 +145,20 @@ const Body = styled.div`
   flex-direction: column;
 `; 
 
+const Section = styled.div`
+  height: 100%; 
+  width: 250px; 
+  display: flex; 
+  flex-direction: row;
+  justify-content: start; 
+  align-items: center;
+  overflow: scroll;
+  background: transparent;
+  color: #212121;
+  background: red;
+`; 
+
+const Section2 = styled(Section)`
+  justify-content: end;
+  background: blue;
+`;

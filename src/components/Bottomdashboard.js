@@ -1,18 +1,49 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useContractRead } from 'wagmi';
+import { useProvider } from 'wagmi';
+import {useAccount} from "wagmi";
+import { useBalance } from 'wagmi';
+import exchangeInterface from "../contracts/Exchange.json"
+
+let myBalance; 
 
 function Bottomdashboard() {
+
+  const provider = useProvider();
+  const {address, isConnecting, isDisconnected} = useAccount();
+
+
+  /*const {data, isError, isLoading} = useContractRead({
+    address: '0x09d68de4A710dD5c7fE5f891C686667B7fD23849', 
+    abi: exchangeInterface, 
+    functionName: 'getBalanceFrom', 
+    signerOrProvider: provider,
+    args: [address], //address of the user
+    watch: true,
+  })*/
+
+  /*useEffect(() => {
+    myBalance = data.toString();
+  })*/
+
+  const {data, isError, isLoading} = useBalance({
+    address: address,
+    token: "0x3a21a35a4edfd3c2edbb9cd2c2e7cbbbbd9ee01b",
+    formatUnits: "ether",
+  })
+
+  //console.log(data.toString())
+
   return (
     <Container>
-      <Row>
-        <LeftBox>
-          <Currency>$ADNL</Currency>
-          <Address>0x20...33</Address>
-        </LeftBox>
-        <RightBox>
-          <Amount>333333333333333333333</Amount>
-        </RightBox>
-      </Row>
+      <Box></Box>
+      <Box></Box>
+      <Box></Box>
+      <Box></Box>
+      <Box></Box>
+      <Box></Box>
+      <Box></Box>
     </Container>
   )
 }
@@ -26,14 +57,29 @@ const Container = styled.div`
   padding: 10px; 
   overflow: scroll;
   background: #DCCFAC;
+  //display: flex;
+  flex-direction: column;
 `;
+
+const Box = styled.div`
+  height: 80px; 
+  width: 100%; 
+  background: transparent;
+  border-radius: 30px;
+  position: relative;
+  margin-bottom: 10px;
+  border: solid 2px #3B3395;
+  &:hover {
+    background: #3B3395;
+  }
+`; 
 
 const Row = styled.div`
   height: 60px; 
   width: 100%; 
   background: transparent;
   display: flex; 
-  flex-direction: row; 
+  flex-direction: column; 
   justify-content: space-between;
   position: relative;
 `; 

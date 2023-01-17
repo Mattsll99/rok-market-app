@@ -33,7 +33,7 @@ function Launch() {
   
 
   const {config} = usePrepareContractWrite({
-    address: '0x88CA06998F7498e58fE28a17f230477354ba92B8', 
+    address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
     abi: ExchangeInterface, 
     functionName: 'launchToken', 
     signerOrProvider: provider,
