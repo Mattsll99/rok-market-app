@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import BuyToken from './BuyToken';
 import SellToken from './SellToken';
+import { usePrepareContractWrite, useContractWrite } from 'wagmi'
+import { useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
+import exchangeInterface from '../contracts/Exchange.json';
+import { ethers } from 'ethers';
 
-function Trade({creatorAddress}) {
+function Trade({creatorAddress, price}) {
   //Query the tokenAddress
   //Query the seller address; 
   //Query all the buy offers
@@ -14,6 +19,12 @@ function Trade({creatorAddress}) {
 
   const[buy, setBuy] = useState(true); 
   const [sell, setSell] = useState(false);
+
+  const[buyOffer, setBuyOffer] = useState("0"); 
+  const[buyOfferAmount, setBuyOfferAmount] = useState("0");
+
+  const[sellOffer, setSellOffer] = useState("0");
+  const[sellOfferAmount, setSellOfferAmount] = useState("0");
 
   const [isHidden, setIsHidden] = useState(true);
 
@@ -37,6 +48,24 @@ function Trade({creatorAddress}) {
     setShowOffer(true);
   }
 
+  const provider = useProvider();
+  const {address, isConnecting, isDisconnected} = useAccount();
+
+  const {buyConfig} = usePrepareContractWrite({
+    address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
+    abi: exchangeInterface, 
+    functionName: 'makeBuyProposal', 
+    signerOrProvider: provider,
+    args: [creatorAddress, ethers.utils.parseEther(buyOffer).toString(), ethers.utils.parseEther(buyOfferAmount).toString()],
+  })
+  
+  console.log(creatorAddress)
+  const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(buyConfig);
+
+  const handleBuyProposal = () => {
+    write()
+  }
+
 
   return (
     <Above onClick = {hideTrade}> 
@@ -49,17 +78,17 @@ function Trade({creatorAddress}) {
         <OfferWrapper>
           <Left>
             <TopLeft>Buy</TopLeft>
-            <RowLeft></RowLeft>
+            <RowLeft value={buyOfferAmount} onChange={(e) => setBuyOfferAmount(e.target.value)}></RowLeft>
             <Text>$CARDI for</Text>
-            <RowLeft></RowLeft>
+            <RowLeft value={buyOffer} onChange={(e) => setBuyOffer(e.target.value)}></RowLeft>
             <Text>MATIC</Text>
-            <Validate>Validate</Validate>
+            <Validate onClick={handleBuyProposal}>Validate</Validate>
           </Left>
           <Right>
             <TopRight>Sell</TopRight>
-            <RowRight></RowRight>
+            <RowRight value={sellOfferAmount} onChange={(e) => setSellOfferAmount(e.target.value)}></RowRight>
             <Text>$CARDI for</Text>
-            <RowRight></RowRight>
+            <RowRight value={sellOffer} onChange={(e) => setSellOffer(e.target.value)}></RowRight>
             <Text>MATIC</Text>
             <Validate>Validate</Validate>
           </Right>
@@ -71,7 +100,7 @@ function Trade({creatorAddress}) {
           <Title onClick={sellRoute}>Sell</Title>
         </Top>
         <Body>
-          {buy === true && <BuyToken creatorAddress={creatorAddress}/>}
+          {buy === true && <BuyToken creatorAddress={creatorAddress} price={price}/>}
           {sell === true && <SellToken />}
         </Body>
       </Wrapper>

@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
 
 //Utiliser le même fonctionnement avec mappingvia address token
-function BuyToken({creatorAddress}) {
+function BuyToken({creatorAddress, price}) {
 
   const provider = useProvider();
   const {address, isConnecting, isDisconnected} = useAccount();
@@ -45,6 +45,7 @@ function BuyToken({creatorAddress}) {
     args: [creatorAddress, ethers.utils.parseEther(amount).toString()],
   })
 
+  //ethers.utils.parseEther(amount).toString()
   const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(config);
 
 
@@ -55,14 +56,14 @@ function BuyToken({creatorAddress}) {
 
   return (
     <Container>
-      <Top>For {ethers.utils.formatEther((data._tokenPrice).toString())} MATIC
+      <Top>For {price} MATIC
       <TopButton onClick={displayBuy}>Buy</TopButton>
       {showBuy === true &&
         <BuyContainer>
           <Cross onClick={hideBuy}>Close</Cross>
           <Title>Amount</Title>
           <BuyCover value={amount} onChange={handleChange}></BuyCover>
-          <Display> {((amount * ethers.utils.formatEther((data._tokenPrice)).toString())).toString().substring(0,18)} MATIC</Display>
+          <Display> {amount * price} MATIC</Display>
           <BuyButton onClick={buyTheToken}>Validate</BuyButton>
       </BuyContainer>
       }

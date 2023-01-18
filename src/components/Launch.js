@@ -14,6 +14,7 @@ var formatedPrice;
 const to1E8 = BigNumber.from('10000000000');
 
 
+
 function Launch() {
 
 
@@ -22,22 +23,36 @@ function Launch() {
 
   const [name, setName] = useState(""); 
   const [symbol, setSymbol] = useState(""); 
-  const [supply, setSupply] = useState("0"); 
-  const [keep, setKeep] = useState("0");     
-  const [price, setPrice] = useState("0");
+  const [supply, setSupply] = useState("0.0"); 
+  const [keep, setKeep] = useState("0.0");     
+  const [price, setPrice] = useState("0.0");
 
   const test = ethers.utils.parseEther(supply).toString();
   console.log(test);
 
   const digitKeep = (keep/100).toString();
   
+  var formatedSupply;
+  if (supply === "") {
+    supply = "0";
+  } else {
+    formatedSupply = supply;
+  }
+  
+  const handleSupply = (event) => {
+    if(event === "") {
+      event = "0"
+    } else {
+      setSupply(event.target.value)
+    }
+  }
 
   const {config} = usePrepareContractWrite({
     address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
     abi: ExchangeInterface, 
     functionName: 'launchToken', 
     signerOrProvider: provider,
-    args: [name, symbol, ethers.utils.parseEther(supply).toString(), ethers.utils.parseEther(digitKeep).toString(), ethers.utils.parseEther(price).toString()],
+    args: [name, symbol, ethers.utils.parseEther(supply || "0").toString(), ethers.utils.parseEther(digitKeep).toString(), ethers.utils.parseEther(price).toString()],
   })
 
   const {data, isLoading, isSuccess, write} = useContractWrite(config);
@@ -59,7 +74,7 @@ function Launch() {
       <Input placeholder='Symbol' value={symbol} onChange={(e) => setSymbol(e.target.value)}/>
       </Row2>
       <Row>
-      <Input placeholder="0" value={supply} onChange={(e) => setSupply(e.target.value)}/>
+      <Input placeholder="Supply" value={supply} onChange={handleSupply}/>
       </Row>
       <Row2>
       <Input placeholder='You keep (max 10%)' value={keep} onChange={(e) => setKeep(e.target.value)}/>

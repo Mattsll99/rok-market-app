@@ -5,7 +5,6 @@ function SellToken() {
   return (
     <Container>
       <Container>
-      <Top>For 0.0006 ETH</Top>
       <Wrapper>
         <Row>
           <Cover>52 $CARDI for 0.00002 MATIC</Cover>

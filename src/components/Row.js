@@ -36,6 +36,7 @@ function Row({creator, symbol, price, creatorAddress}) {
         <CloseButton onClick={hideTrade}>Close</CloseButton>
         <Trade 
           creatorAddress={creatorAddress}
+          price={price}
         />
       </Wrapper>}
       </Right>
