@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
 import { ethers } from 'ethers';
 
-function Trade({creatorAddress, price}) {
+function Trade({creatorAddress, tokenAddress,  price}) {
   //Query the tokenAddress
   //Query the seller address; 
   //Query all the buy offers
@@ -100,7 +100,7 @@ function Trade({creatorAddress, price}) {
           <Title onClick={sellRoute}>Sell</Title>
         </Top>
         <Body>
-          {buy === true && <BuyToken creatorAddress={creatorAddress} price={price}/>}
+          {buy === true && <BuyToken creatorAddress={creatorAddress} tokenAddress={tokenAddress} price={price}/>}
           {sell === true && <SellToken />}
         </Body>
       </Wrapper>

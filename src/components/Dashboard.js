@@ -79,7 +79,7 @@ function Dashboard() {
 
   //console.log(twitterLink);
 
- console.log(data)
+ //console.log(data)
   /*if(userNotConnected=== true) {
     return (
       <Container>

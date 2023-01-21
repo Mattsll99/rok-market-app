@@ -1,20 +1,31 @@
 import { ethers } from 'ethers'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useContractRead, usePrepareContractWrite } from 'wagmi'
+import { useContract, useContractRead, usePrepareContractWrite, useSigner } from 'wagmi'
 import { useContractWrite } from 'wagmi'
 import { useProvider } from 'wagmi'
 import { useAccount } from 'wagmi'
+import { erc20ABI } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
+//https://ethereum.stackexchange.com/questions/141613/wagmi-usewaitfortransaction-not-waiting-long-enough
+
 
 //Utiliser le même fonctionnement avec mappingvia address token
-function BuyToken({creatorAddress, price}) {
+function BuyToken({creatorAddress, tokenAddress, price}) {
 
   const provider = useProvider();
+  const { data: signer, isSignerError, isSignerLoading } = useSigner()
   const {address, isConnecting, isDisconnected} = useAccount();
 
   const [showBuy, setShowBuy] = useState(false);
   const [amount, setAmount] = useState("0");
+
+  const creatorToken = useContract({
+    address: tokenAddress, 
+    abi: erc20ABI, 
+    signerOrProvider: signer,
+  })
+
 
   const displayBuy = () => {
     setShowBuy(true);
@@ -41,7 +52,7 @@ function BuyToken({creatorAddress, price}) {
     address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
     abi: exchangeInterface, 
     functionName: 'directBuy', 
-    signerOrProvider: provider,
+    signerOrProvider: signer,
     args: [creatorAddress, ethers.utils.parseEther(amount).toString()],
   })
 
@@ -50,6 +61,13 @@ function BuyToken({creatorAddress, price}) {
 
 
   const buyTheToken = () => {
+    write();
+  }
+
+ 
+  async function buyTheTokenBis() {
+    const result = await creatorToken.connect(signer).approve('0x6f1061a30609842457288C26bF84513702d2b17c', ethers.utils.parseEther(amount).toString()); 
+    await result.wait(); 
     write();
   }
 
@@ -64,7 +82,7 @@ function BuyToken({creatorAddress, price}) {
           <Title>Amount</Title>
           <BuyCover value={amount} onChange={handleChange}></BuyCover>
           <Display> {amount * price} MATIC</Display>
-          <BuyButton onClick={buyTheToken}>Validate</BuyButton>
+          <BuyButton onClick={buyTheTokenBis}>Validate</BuyButton>
       </BuyContainer>
       }
       </Top>

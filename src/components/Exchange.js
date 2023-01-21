@@ -66,6 +66,7 @@ function Exchange() {
                 symbol={token._tokenSymbol}
                 price={ethers.utils.formatEther((token._tokenPrice).toString())}
                 creatorAddress={token._deployerAddress}
+                tokenAddress={token._tokenAddress}
               />
             ))
           }

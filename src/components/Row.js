@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Trade from './Trade'
 
-function Row({creator, symbol, price, creatorAddress}) {
+function Row({creator, symbol, price, creatorAddress, tokenAddress}) {
   const [isShown, setIsShown] = useState(false);
 
   const showTrade = () => {
@@ -36,6 +36,7 @@ function Row({creator, symbol, price, creatorAddress}) {
         <CloseButton onClick={hideTrade}>Close</CloseButton>
         <Trade 
           creatorAddress={creatorAddress}
+          tokenAddress = {tokenAddress}
           price={price}
         />
       </Wrapper>}
