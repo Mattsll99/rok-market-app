@@ -2,14 +2,12 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import {usePrepareContractWrite, useContractWrite, useSigner} from 'wagmi';
 import ExchangeInterface from '../contracts/Exchange.json';
+import LaunchInterface from '../contracts/Launch.json'
 import {useProvider} from 'wagmi'
 import {useFeeData} from 'wagmi'
 import { BigNumber, ethers } from 'ethers';
 import { formatUnits, parseEther } from 'ethers/lib/utils.js';
 
-var formatedSupply; 
-var formatedKeep;
-var formatedPrice;
 
 const to1E8 = BigNumber.from('10000000000');
 
@@ -23,21 +21,14 @@ function Launch() {
 
   const [name, setName] = useState(""); 
   const [symbol, setSymbol] = useState(""); 
-  const [supply, setSupply] = useState("0.0"); 
-  const [keep, setKeep] = useState("0.0");     
-  const [price, setPrice] = useState("0.0");
+  const [supply, setSupply] = useState(""); 
+  const [keep, setKeep] = useState("");     
+  const [price, setPrice] = useState("");
 
-  const test = ethers.utils.parseEther(supply).toString();
-  console.log(test);
+  //const test = ethers.utils.parseEther(supply).toString();
+  //console.log(test);
 
   const digitKeep = (keep/100).toString();
-  
-  var formatedSupply;
-  if (supply === "") {
-    supply = "0";
-  } else {
-    formatedSupply = supply;
-  }
   
   const handleSupply = (event) => {
     if(event === "") {
@@ -47,15 +38,41 @@ function Launch() {
     }
   }
 
-  const {config} = usePrepareContractWrite({
+
+  /*const {config} = usePrepareContractWrite({
     address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
     abi: ExchangeInterface, 
     functionName: 'launchToken', 
     signerOrProvider: provider,
-    args: [name, symbol, ethers.utils.parseEther(supply || "0").toString(), ethers.utils.parseEther(digitKeep).toString(), ethers.utils.parseEther(price).toString()],
+    args: [
+      name, 
+      symbol, 
+      (typeof supply !== 'undefined' && supply.toString() !== "")? ethers.utils.parseEther(supply).toString() : "0",
+      ( typeof keep !== "undefined" && keep.toString() !== "")? ethers.utils.parseEther(digitKeep).toString() : "0",
+      (typeof price !== "undefined" && price.toString() !== "")? ethers.utils.parseEther(price).toString() : "0"
+    ],
+  })
+
+  const {data, isLoading, isSuccess, write} = useContractWrite(config);*/
+
+  const {config} = usePrepareContractWrite({
+    address: '0x36207744C9c98A7177c3AE9723544B6d91Dc497F', 
+    abi: LaunchInterface, 
+    functionName: 'launchToken', 
+    signerOrProvider: provider,
+    args: [
+      name, 
+      symbol, 
+      (typeof supply !== 'undefined' && supply.toString() !== "")? ethers.utils.parseEther(supply).toString() : "0",
+      ( typeof keep !== "undefined" && keep.toString() !== "")? ethers.utils.parseEther(digitKeep).toString() : "0",
+      (typeof price !== "undefined" && price.toString() !== "")? ethers.utils.parseEther(price).toString() : "0"
+    ],
   })
 
   const {data, isLoading, isSuccess, write} = useContractWrite(config);
+  
+
+  
 
   const launchMyToken = () => {
     write()

@@ -6,7 +6,11 @@ import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 import { useProvider } from 'wagmi'
 import { useAccount } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
+import MATICInterface from '../contracts/MATIC.json'
 import { ethers } from 'ethers';
+import { erc20ABI } from 'wagmi';
+import { useSigner } from 'wagmi';
+import { useContract } from 'wagmi';
 
 function Trade({creatorAddress, tokenAddress,  price}) {
   //Query the tokenAddress
@@ -30,6 +34,14 @@ function Trade({creatorAddress, tokenAddress,  price}) {
 
   const[showOffer, setShowOffer] = useState(false);
 
+  const { data: signer, isSignerError, isSignerLoading } = useSigner()
+
+  const referenceToken = useContract({
+    address: '0x0000000000000000000000000000000000001010', 
+    abi: MATICInterface, 
+    signerOrProvider: signer,
+  })
+
   const hideTrade = () => {
     setIsHidden(false);
   }
@@ -52,18 +64,24 @@ function Trade({creatorAddress, tokenAddress,  price}) {
   const {address, isConnecting, isDisconnected} = useAccount();
 
   const {buyConfig} = usePrepareContractWrite({
-    address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
+    address: '0x181b18F84A6B5491b006165059347FD66C448e9c', 
     abi: exchangeInterface, 
     functionName: 'makeBuyProposal', 
     signerOrProvider: provider,
     args: [creatorAddress, ethers.utils.parseEther(buyOffer).toString(), ethers.utils.parseEther(buyOfferAmount).toString()],
   })
   
-  console.log(creatorAddress)
   const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(buyConfig);
 
-  const handleBuyProposal = () => {
+  /*const handleBuyProposal = () => {
     write()
+  }*/
+  
+  //console.log(referenceToken.balalanceOf(signer))
+
+  async function handleBuyOffer() {
+    const balance = await referenceToken.balanceOf(signer); 
+    console.log(balance)
   }
 
 
@@ -82,7 +100,7 @@ function Trade({creatorAddress, tokenAddress,  price}) {
             <Text>$CARDI for</Text>
             <RowLeft value={buyOffer} onChange={(e) => setBuyOffer(e.target.value)}></RowLeft>
             <Text>MATIC</Text>
-            <Validate onClick={handleBuyProposal}>Validate</Validate>
+            <Validate onClick={handleBuyOffer}>Validate</Validate>
           </Left>
           <Right>
             <TopRight>Sell</TopRight>

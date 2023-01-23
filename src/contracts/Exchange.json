@@ -109,6 +109,25 @@
         "type": "address"
       }
     ],
+    "name": "getBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_creatorAddress",
+        "type": "address"
+      }
+    ],
     "name": "getDeployerData",
     "outputs": [
       {
@@ -145,7 +164,7 @@
           }
         ],
         "internalType": "struct exchange.deployerData",
-        "name": "_data",
+        "name": "",
         "type": "tuple"
       }
     ],
@@ -155,39 +174,38 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_creatorAddress",
+        "type": "address"
+      },
+      {
         "internalType": "string",
-        "name": "name",
+        "name": "_tokenName",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "symbol",
+        "name": "_tokenSymbol",
         "type": "string"
       },
-      {
-        "internalType": "uint256",
-        "name": "supply",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "kept",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      }
-    ],
-    "name": "launchToken",
-    "outputs": [
       {
         "internalType": "address",
         "name": "_tokenAddress",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenSupply",
+        "type": "uint256"
       }
     ],
+    "name": "initialize",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -233,6 +251,42 @@
       }
     ],
     "name": "makeSellProposal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_tokenFromCreator",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "revokeBuyProposal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_tokenFromCreator",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "revokeSellProposal",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

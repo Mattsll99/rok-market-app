@@ -28,7 +28,7 @@ function Exchange() {
   const provider = useProvider();
 
   const {data, isError, isLoading} = useContractRead({
-    address: '0x6f1061a30609842457288C26bF84513702d2b17c', 
+    address: '0x181b18F84A6B5491b006165059347FD66C448e9c', 
     abi: exchangeInterface,
     functionName: "getAllDeployers", 
     signerOrProvider: provider, 
