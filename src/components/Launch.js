@@ -56,7 +56,7 @@ function Launch() {
   const {data, isLoading, isSuccess, write} = useContractWrite(config);*/
 
   const {config} = usePrepareContractWrite({
-    address: '0x36207744C9c98A7177c3AE9723544B6d91Dc497F', 
+    address: '0x0F0e87a679eA51BeCE18A96BA9c63F424Bf24d07', 
     abi: LaunchInterface, 
     functionName: 'launchToken', 
     signerOrProvider: provider,

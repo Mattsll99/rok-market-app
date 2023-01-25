@@ -6,11 +6,14 @@ import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 import { useProvider } from 'wagmi'
 import { useAccount } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
-import MATICInterface from '../contracts/MATIC.json'
+//import MATICInterface from '../contracts/MATIC.json'
+import ROKInterface from '../contracts/ROK.json'
 import { ethers } from 'ethers';
 import { erc20ABI } from 'wagmi';
 import { useSigner } from 'wagmi';
 import { useContract } from 'wagmi';
+
+//https://ethereum.stackexchange.com/questions/135980/how-to-run-the-approve-method-of-matic-smart-contract-on-mumbai-chain
 
 function Trade({creatorAddress, tokenAddress,  price}) {
   //Query the tokenAddress
@@ -36,11 +39,9 @@ function Trade({creatorAddress, tokenAddress,  price}) {
 
   const { data: signer, isSignerError, isSignerLoading } = useSigner()
 
-  const referenceToken = useContract({
-    address: '0x0000000000000000000000000000000000001010', 
-    abi: MATICInterface, 
-    signerOrProvider: signer,
-  })
+  //0x7f81a66cbBA2D30d146d3Cb6bcff5820e9EbcF68
+
+  //0x0000000000000000000000000000000000001010
 
   const hideTrade = () => {
     setIsHidden(false);
@@ -63,13 +64,21 @@ function Trade({creatorAddress, tokenAddress,  price}) {
   const provider = useProvider();
   const {address, isConnecting, isDisconnected} = useAccount();
 
+  const ROK = useContract({
+    address: '0xa2640d174DC8a343D54546ed47EBdb85B467CF9e', 
+    abi: erc20ABI, 
+    signerOrProvider: signer
+  })
+
   const {buyConfig} = usePrepareContractWrite({
-    address: '0x181b18F84A6B5491b006165059347FD66C448e9c', 
+    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface, 
     functionName: 'makeBuyProposal', 
     signerOrProvider: provider,
     args: [creatorAddress, ethers.utils.parseEther(buyOffer).toString(), ethers.utils.parseEther(buyOfferAmount).toString()],
   })
+
+  //console.log(creatorAddress)
   
   const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(buyConfig);
 
@@ -80,8 +89,11 @@ function Trade({creatorAddress, tokenAddress,  price}) {
   //console.log(referenceToken.balalanceOf(signer))
 
   async function handleBuyOffer() {
-    const balance = await referenceToken.balanceOf(signer); 
-    console.log(balance)
+    const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther('1000').toString())
+    await result.wait();
+    const transaction = await write();
+    await transaction.wait();
+    //write();
   }
 
 

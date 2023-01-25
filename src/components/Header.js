@@ -3,11 +3,13 @@ import styled from 'styled-components'
 //import ConnectButton from './ConnectButton';
 import { Link } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Faucet from './Faucet';
 
 function Header() {
   return (
     <Container>
       <Logo>ROK</Logo>
+      <Faucet />
       <ConnectButton
         showBalance={false}
       />

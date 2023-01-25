@@ -24,7 +24,7 @@ function Row({creator, symbol, price, creatorAddress, tokenAddress}) {
           <Name>{symbol}</Name>
         </Section2>
         <Section2>
-          <Name>{price+" "}MATIC</Name>
+          <Name>{price+" "}ROK</Name>
         </Section2>
       </Menu>
       <Right>

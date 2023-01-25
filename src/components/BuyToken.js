@@ -7,6 +7,7 @@ import { useProvider } from 'wagmi'
 import { useAccount } from 'wagmi'
 import { erc20ABI } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
+import ROKInterface from '../contracts/ROK.json'
 //https://ethereum.stackexchange.com/questions/141613/wagmi-usewaitfortransaction-not-waiting-long-enough
 
 
@@ -28,8 +29,14 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
     signerOrProvider: signer,
   })
 
+  const ROK = useContract({
+    address: '0xa2640d174DC8a343D54546ed47EBdb85B467CF9e', 
+    abi: ROKInterface, 
+    signerOrProvider: signer
+  })
+
   const referenceToken = useContract({
-    address: referenceTokenAddress, 
+    address: '0x0F0e87a679eA51BeCE18A96BA9c63F424Bf24d07', 
     abi: erc20ABI, 
     signerOrProvider: signer,
   })
@@ -48,7 +55,7 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
   }
   //Access the price of the token 
   const {data, isError, isLoading} = useContractRead({
-    address: '0x181b18F84A6B5491b006165059347FD66C448e9c', 
+    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface,
     functionName: "getDeployerData", 
     signerOrProvider: provider, 
@@ -57,7 +64,7 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
   })
 
   const {config} = usePrepareContractWrite({
-    address: '0x181b18F84A6B5491b006165059347FD66C448e9c', 
+    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface, 
     functionName: 'directBuy', 
     signerOrProvider: signer,
@@ -67,23 +74,26 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
   //ethers.utils.parseEther(amount).toString()
   const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(config);
 
-
   const buyTheToken = () => {
+    //await ROK.connect(address).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString()); 
+    ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString())
     write();
   }
 
   //0x6f1061a30609842457288C26bF84513702d2b17c
  
   async function buyTheTokenBis() {
-    const result = await creatorToken.connect(signer).approve('0x181b18F84A6B5491b006165059347FD66C448e9c', ethers.utils.parseEther(amount).toString()); 
+   //await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString())
+    const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString()); 
     await result.wait(); 
-    write();
+    const transaction = await write();
+    await transaction.wait();
   }
 
 
   return (
     <Container>
-      <Top>For {price} MATIC
+      <Top>For {price} ROK
       <TopButton onClick={displayBuy}>Buy</TopButton>
       {showBuy === true &&
         <BuyContainer>
