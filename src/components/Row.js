@@ -38,6 +38,7 @@ function Row({creator, symbol, price, creatorAddress, tokenAddress}) {
           creatorAddress={creatorAddress}
           tokenAddress = {tokenAddress}
           price={price}
+          symbol = {symbol}
         />
       </Wrapper>}
       </Right>

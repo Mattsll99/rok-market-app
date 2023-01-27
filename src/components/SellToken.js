@@ -1,15 +1,50 @@
+import { ethers } from 'ethers'
 import React from 'react'
 import styled from 'styled-components'
+import { useContractRead } from 'wagmi'
+import { useProvider } from 'wagmi'
+import ExchangeInterface from '../contracts/Exchange.json'
 
-function SellToken() {
+function SellToken({creatorAddress, tokenAddress, symbol, price}) {
+
+  const provider = useProvider();
+
+  const {data, isError, isLoading} = useContractRead({
+    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    abi: ExchangeInterface,
+    functionName: "seeBuyProposalsForToken", 
+    signerOrProvider: provider, 
+    args:[creatorAddress],
+    watch: true,
+  })
+
+  console.log(data);
+
+  /*{
+    data?.map((token, i) => (
+      <Row 
+        creator={token._deployerAddress.substring(0,5)+"..."+token._deployerAddress.substring(38)}
+        symbol={token._tokenSymbol}
+        price={ethers.utils.formatEther((token._tokenPrice).toString())}
+        creatorAddress={token._deployerAddress}
+        tokenAddress={token._tokenAddress}
+      />
+    ))
+  }*/
+  
+
   return (
     <Container>
       <Container>
       <Wrapper>
-        <Row>
-          <Cover>52 $CARDI for 0.00002 MATIC</Cover>
-          <Button>Sell</Button>
-        </Row>
+        {
+          data?.map((proposal, i) => (
+            <Row>
+              <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
+              <Button>Sell</Button>
+            </Row>
+          ))
+        }
       </Wrapper>
     </Container>
     </Container>
@@ -70,6 +105,7 @@ const Row = styled.div`
   align-items: center;
   justify-content: start;
   position : relative;
+  margin-top: 10px;
 `;
 
 const Button = styled.div`

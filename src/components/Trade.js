@@ -15,7 +15,7 @@ import { useContract } from 'wagmi';
 
 //https://ethereum.stackexchange.com/questions/135980/how-to-run-the-approve-method-of-matic-smart-contract-on-mumbai-chain
 
-function Trade({creatorAddress, tokenAddress,  price}) {
+function Trade({creatorAddress, tokenAddress, symbol, price}) {
   //Query the tokenAddress
   //Query the seller address; 
   //Query all the buy offers
@@ -70,30 +70,56 @@ function Trade({creatorAddress, tokenAddress,  price}) {
     signerOrProvider: signer
   })
 
-  const {buyConfig} = usePrepareContractWrite({
+  const creatorToken = useContract({
+    address: tokenAddress, 
+    abi: erc20ABI, 
+    signerOrProvider: signer
+  })
+
+  const {config2} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface, 
     functionName: 'makeBuyProposal', 
-    signerOrProvider: provider,
+    signerOrProvider: signer,
     args: [creatorAddress, ethers.utils.parseEther(buyOffer).toString(), ethers.utils.parseEther(buyOfferAmount).toString()],
+  })
+
+  const {config} = usePrepareContractWrite({
+    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    abi: exchangeInterface,  
+    functionName: 'makeSellProposal', 
+    signerOrProvider: signer,
+    args: [creatorAddress, ethers.utils.parseEther(sellOffer).toString(), ethers.utils.parseEther(sellOfferAmount).toString()],
   })
 
   //console.log(creatorAddress)
   
-  const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(buyConfig);
+  const {buyData, isBuyLoading, isBuySuccess, write2} = useContractWrite(config2);
+  const {data, isLoading, isSuccess, write} = useContractWrite(config);
 
   /*const handleBuyProposal = () => {
-    write()
+    write() 
   }*/
   
   //console.log(referenceToken.balalanceOf(signer))
 
-  async function handleBuyOffer() {
-    const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther('1000').toString())
+  const toPay = buyOffer * buyOfferAmount;
+  const formatedPay = toPay.toString();
+
+  //console.log(ethers.utils.parseEther('1000').toString())
+
+  async function handleSellOffer() {
+    const result = await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(sellOfferAmount).toString())
     await result.wait();
     const transaction = await write();
     await transaction.wait();
     //write();
+  }
+
+  async function handleBuyOffer() {
+    const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther('1000').toString())
+    await result.wait();
+    write2();
   }
 
 
@@ -120,7 +146,7 @@ function Trade({creatorAddress, tokenAddress,  price}) {
             <Text>$CARDI for</Text>
             <RowRight value={sellOffer} onChange={(e) => setSellOffer(e.target.value)}></RowRight>
             <Text>MATIC</Text>
-            <Validate>Validate</Validate>
+            <Validate onClick={handleSellOffer}>Validate</Validate>
           </Right>
         </OfferWrapper>
       }
@@ -130,8 +156,8 @@ function Trade({creatorAddress, tokenAddress,  price}) {
           <Title onClick={sellRoute}>Sell</Title>
         </Top>
         <Body>
-          {buy === true && <BuyToken creatorAddress={creatorAddress} tokenAddress={tokenAddress} price={price}/>}
-          {sell === true && <SellToken />}
+          {buy === true && <BuyToken creatorAddress={creatorAddress} tokenAddress={tokenAddress} symbol = {symbol } price={price}/>}
+          {sell === true && <SellToken creatorAddress={creatorAddress} tokenAddress={tokenAddress} symbol = {symbol } price={price}/>}
         </Body>
       </Wrapper>
     </Container>

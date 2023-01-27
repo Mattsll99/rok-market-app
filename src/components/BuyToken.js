@@ -12,7 +12,7 @@ import ROKInterface from '../contracts/ROK.json'
 
 
 //Utiliser le même fonctionnement avec mappingvia address token
-function BuyToken({creatorAddress, tokenAddress, price}) {
+function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
 
   const referenceTokenAddress = '0x0000000000000000000000000000000000001010';
 
@@ -54,14 +54,14 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
     setAmount(event.target.value);
   }
   //Access the price of the token 
-  const {data, isError, isLoading} = useContractRead({
+  /*const {data, isError, isLoading} = useContractRead({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface,
     functionName: "getDeployerData", 
     signerOrProvider: provider, 
     args: [creatorAddress],
     watch: true,
-  })
+  })*/
 
   const {config} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
@@ -80,7 +80,15 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
     write();
   }
 
-  //0x6f1061a30609842457288C26bF84513702d2b17c
+
+  const {data, isofferError, isOfferLoading} = useContractRead({
+    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    abi: exchangeInterface,
+    functionName: "seeSellProposalsForToken", 
+    signerOrProvider: provider, 
+    args:[creatorAddress],
+    watch: true,
+  })
  
   async function buyTheTokenBis() {
    //await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString())
@@ -89,6 +97,17 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
     const transaction = await write();
     await transaction.wait();
   }
+
+  /*{
+    data?.map((proposal, i) => (
+      <Row>
+        <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
+        <Button>Sell</Button>
+      </Row>
+    ))
+  }*/
+
+  //console.log(offerData)
 
 
   return (
@@ -107,9 +126,17 @@ function BuyToken({creatorAddress, tokenAddress, price}) {
       </Top>
       <Wrapper>
         <Row>
-          <Cover>52 $CARDI for 0.00002 MATIC</Cover>
+          <Cover>52 {symbol} for 0.00002 ROK</Cover>
           <Button>Buy</Button>
         </Row>
+        {
+        data?.map((proposal, i) => (
+        <Row>
+          <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
+          <BodyButton>Buy</BodyButton>
+        </Row>
+    ))
+  }
       </Wrapper>
     </Container>
   )
@@ -223,6 +250,28 @@ const BuyButton = styled.div`
   }
 `;
 
+const BodyButton = styled.div`
+  height: 80%; 
+  width: 120px; 
+  background: #FFFFFF; 
+  border-radius: 100px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  position: absolute; 
+  right: 10px;
+  color: blue;
+  font-family: roboto mono;
+  font-size: 20px;
+  font-weight: 300;
+  color: #212121; 
+  cursor: pointer;
+  &:hover {
+    background: #212121; 
+    color: #FFFFFF;
+  }
+`; 
+
 const Cover = styled.div`
   height: 70%; 
   width: auto;
@@ -270,6 +319,7 @@ const Row = styled.div`
   align-items: center;
   justify-content: start;
   position : relative;
+
 `;
 
 const TopButton = styled.div`
