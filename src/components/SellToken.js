@@ -1,13 +1,16 @@
 import { ethers } from 'ethers'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useContractRead } from 'wagmi'
 import { useProvider } from 'wagmi'
 import ExchangeInterface from '../contracts/Exchange.json'
+import SellTokenTo from './SellTokenTo'
 
 function SellToken({creatorAddress, tokenAddress, symbol, price}) {
 
   const provider = useProvider();
+
+  const [sellTo, setSellTo] = useState(false);
 
   const {data, isError, isLoading} = useContractRead({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
@@ -18,7 +21,11 @@ function SellToken({creatorAddress, tokenAddress, symbol, price}) {
     watch: true,
   })
 
-  console.log(data);
+  //console.log(data);
+
+  const showSellTo = () => {
+    setSellTo(true);
+  }
 
   /*{
     data?.map((token, i) => (
@@ -41,8 +48,9 @@ function SellToken({creatorAddress, tokenAddress, symbol, price}) {
           data?.map((proposal, i) => (
             <Row>
               <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
-              <Button>Sell</Button>
+              <Button onClick={showSellTo}>Sell</Button>
             </Row>
+            
           ))
         }
       </Wrapper>
@@ -58,6 +66,7 @@ const Container = styled.div`
   width: 100%; 
   background: transparent;
   overflow: scroll;
+  position: relative;
 `;
 
 const Cover = styled.div`

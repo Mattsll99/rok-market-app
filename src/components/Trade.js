@@ -12,6 +12,7 @@ import { ethers } from 'ethers';
 import { erc20ABI } from 'wagmi';
 import { useSigner } from 'wagmi';
 import { useContract } from 'wagmi';
+import { SellProposal } from './SellProposal';
 
 //https://ethereum.stackexchange.com/questions/135980/how-to-run-the-approve-method-of-matic-smart-contract-on-mumbai-chain
 
@@ -76,26 +77,33 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
     signerOrProvider: signer
   })
 
-  const {config2} = usePrepareContractWrite({
+  const {config} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface, 
     functionName: 'makeBuyProposal', 
     signerOrProvider: signer,
-    args: [creatorAddress, ethers.utils.parseEther(buyOffer).toString(), ethers.utils.parseEther(buyOfferAmount).toString()],
+    args: [creatorAddress,
+      (typeof buyOffer !== 'undefined' && buyOffer.toString() !=="")? ethers.utils.parseEther(buyOffer).toString() : "0",
+      (typeof buyOfferAmount !== 'undefined' && buyOfferAmount.toString() !=="")? ethers.utils.parseEther(buyOfferAmount).toString() : "0" ],
   })
 
-  const {config} = usePrepareContractWrite({
+  //ethers.utils.parseEther(buyOffer).toString()
+  //(typeof amount !== 'undefined' && amount.toString() !=="")? ethers.utils.parseEther(amount).toString() : "0"
+
+  const {Config} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface,  
     functionName: 'makeSellProposal', 
     signerOrProvider: signer,
-    args: [creatorAddress, ethers.utils.parseEther(sellOffer).toString(), ethers.utils.parseEther(sellOfferAmount).toString()],
+    args: [creatorAddress,
+      (typeof sellOffer !== 'undefined' && sellOffer.toString() !=="")? ethers.utils.parseEther(sellOffer).toString() : "0",
+      (typeof sellOfferAmount !== 'undefined' && sellOfferAmount.toString() !=="")? ethers.utils.parseEther(sellOfferAmount).toString() : "0" ],
   })
 
   //console.log(creatorAddress)
   
-  const {buyData, isBuyLoading, isBuySuccess, write2} = useContractWrite(config2);
-  const {data, isLoading, isSuccess, write} = useContractWrite(config);
+  const {buyData, isBuyLoading, isBuySuccess, write} = useContractWrite(config);
+  const {data, isLoading, isSuccess, writes} = useContractWrite(Config);
 
   /*const handleBuyProposal = () => {
     write() 
@@ -109,9 +117,9 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
   //console.log(ethers.utils.parseEther('1000').toString())
 
   async function handleSellOffer() {
-    const result = await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(sellOfferAmount).toString())
-    await result.wait();
-    const transaction = await write();
+    //const result = await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(sellOfferAmount).toString())
+  //await result.wait();
+    const transaction = await writes();
     await transaction.wait();
     //write();
   }
@@ -119,7 +127,8 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
   async function handleBuyOffer() {
     const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther('1000').toString())
     await result.wait();
-    write2();
+    const transaction = await write();
+    await transaction.wait();
   }
 
 
@@ -134,17 +143,17 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
         <OfferWrapper>
           <Left>
             <TopLeft>Buy</TopLeft>
-            <RowLeft value={buyOfferAmount} onChange={(e) => setBuyOfferAmount(e.target.value)}></RowLeft>
-            <Text>$CARDI for</Text>
-            <RowLeft value={buyOffer} onChange={(e) => setBuyOffer(e.target.value)}></RowLeft>
+            <RowLeft value={buyOfferAmount} placeholder = "0" onChange={(e) => setBuyOfferAmount(e.target.value)}></RowLeft>
+            <Text>{symbol} for</Text>
+            <RowLeft value={buyOffer} placeholder="0" onChange={(e) => setBuyOffer(e.target.value)}></RowLeft>
             <Text>MATIC</Text>
             <Validate onClick={handleBuyOffer}>Validate</Validate>
           </Left>
           <Right>
             <TopRight>Sell</TopRight>
-            <RowRight value={sellOfferAmount} onChange={(e) => setSellOfferAmount(e.target.value)}></RowRight>
-            <Text>$CARDI for</Text>
-            <RowRight value={sellOffer} onChange={(e) => setSellOffer(e.target.value)}></RowRight>
+            <RowRight value={sellOfferAmount} placeholder="0" onChange={(e) => setSellOfferAmount(e.target.value)}></RowRight>
+            <Text>{symbol} for</Text>
+            <RowRight value={sellOffer} placeholder = "0" onChange={(e) => setSellOffer(e.target.value)}></RowRight>
             <Text>MATIC</Text>
             <Validate onClick={handleSellOffer}>Validate</Validate>
           </Right>

@@ -21,7 +21,7 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
   const {address, isConnecting, isDisconnected} = useAccount();
 
   const [showBuy, setShowBuy] = useState(false);
-  const [amount, setAmount] = useState("0");
+  const [amount, setAmount] = useState("");
 
   const creatorToken = useContract({
     address: tokenAddress, 
@@ -63,13 +63,16 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
     watch: true,
   })*/
 
+  //(typeof supply !== 'undefined' && supply.toString() !== "")? ethers.utils.parseEther(supply).toString() : "0",
+
   const {config} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
     abi: exchangeInterface, 
     functionName: 'directBuy', 
     signerOrProvider: signer,
-    args: [creatorAddress, ethers.utils.parseEther(amount).toString()],
+    args: [creatorAddress,(typeof amount !== 'undefined' && amount.toString() !=="")? ethers.utils.parseEther(amount).toString() : "0"]
   })
+  //ethers.utils.parseEther(amount).toString()
 
   //ethers.utils.parseEther(amount).toString()
   const {buyData, isBuyLoading, isSuccess, write} = useContractWrite(config);
@@ -118,8 +121,8 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
         <BuyContainer>
           <Cross onClick={hideBuy}>Close</Cross>
           <Title>Amount</Title>
-          <BuyCover value={amount} onChange={handleChange}></BuyCover>
-          <Display> {amount * price} MATIC</Display>
+          <BuyCover value={amount} placeholder = "0" onChange={handleChange}></BuyCover>
+          <Display> {amount * price} ROK</Display>
           <BuyButton onClick={buyTheTokenBis}>Validate</BuyButton>
       </BuyContainer>
       }
