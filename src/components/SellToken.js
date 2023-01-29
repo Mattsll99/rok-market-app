@@ -27,17 +27,6 @@ function SellToken({creatorAddress, tokenAddress, symbol, price}) {
     setSellTo(true);
   }
 
-  /*{
-    data?.map((token, i) => (
-      <Row 
-        creator={token._deployerAddress.substring(0,5)+"..."+token._deployerAddress.substring(38)}
-        symbol={token._tokenSymbol}
-        price={ethers.utils.formatEther((token._tokenPrice).toString())}
-        creatorAddress={token._deployerAddress}
-        tokenAddress={token._tokenAddress}
-      />
-    ))
-  }*/
   
 
   return (

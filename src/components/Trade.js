@@ -12,18 +12,11 @@ import { ethers } from 'ethers';
 import { erc20ABI } from 'wagmi';
 import { useSigner } from 'wagmi';
 import { useContract } from 'wagmi';
-import { SellProposal } from './SellProposal';
+import  SellProposal  from './SellProposal';
 
-//https://ethereum.stackexchange.com/questions/135980/how-to-run-the-approve-method-of-matic-smart-contract-on-mumbai-chain
 
 function Trade({creatorAddress, tokenAddress, symbol, price}) {
-  //Query the tokenAddress
-  //Query the seller address; 
-  //Query all the buy offers
-  //Querry all the sell offers
-  //For each row map the right Trade component with the token address
 
-  //Ensuite on utilise creatorAddress pour render data et execution function
 
   const[buy, setBuy] = useState(true); 
   const [sell, setSell] = useState(false);
@@ -31,18 +24,12 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
   const[buyOffer, setBuyOffer] = useState("0"); 
   const[buyOfferAmount, setBuyOfferAmount] = useState("0");
 
-  const[sellOffer, setSellOffer] = useState("0");
-  const[sellOfferAmount, setSellOfferAmount] = useState("0");
 
   const [isHidden, setIsHidden] = useState(true);
 
   const[showOffer, setShowOffer] = useState(false);
 
   const { data: signer, isSignerError, isSignerLoading } = useSigner()
-
-  //0x7f81a66cbBA2D30d146d3Cb6bcff5820e9EbcF68
-
-  //0x0000000000000000000000000000000000001010
 
   const hideTrade = () => {
     setIsHidden(false);
@@ -62,20 +49,12 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
     setShowOffer(true);
   }
 
-  const provider = useProvider();
-  const {address, isConnecting, isDisconnected} = useAccount();
-
   const ROK = useContract({
     address: '0xa2640d174DC8a343D54546ed47EBdb85B467CF9e', 
     abi: erc20ABI, 
     signerOrProvider: signer
   })
 
-  const creatorToken = useContract({
-    address: tokenAddress, 
-    abi: erc20ABI, 
-    signerOrProvider: signer
-  })
 
   const {config} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
@@ -86,43 +65,15 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
       (typeof buyOffer !== 'undefined' && buyOffer.toString() !=="")? ethers.utils.parseEther(buyOffer).toString() : "0",
       (typeof buyOfferAmount !== 'undefined' && buyOfferAmount.toString() !=="")? ethers.utils.parseEther(buyOfferAmount).toString() : "0" ],
   })
-
-  //ethers.utils.parseEther(buyOffer).toString()
-  //(typeof amount !== 'undefined' && amount.toString() !=="")? ethers.utils.parseEther(amount).toString() : "0"
-
-  const {Config} = usePrepareContractWrite({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
-    abi: exchangeInterface,  
-    functionName: 'makeSellProposal', 
-    signerOrProvider: signer,
-    args: [creatorAddress,
-      (typeof sellOffer !== 'undefined' && sellOffer.toString() !=="")? ethers.utils.parseEther(sellOffer).toString() : "0",
-      (typeof sellOfferAmount !== 'undefined' && sellOfferAmount.toString() !=="")? ethers.utils.parseEther(sellOfferAmount).toString() : "0" ],
-  })
-
-  //console.log(creatorAddress)
   
   const {buyData, isBuyLoading, isBuySuccess, write} = useContractWrite(config);
-  const {data, isLoading, isSuccess, writes} = useContractWrite(Config);
-
-  /*const handleBuyProposal = () => {
-    write() 
-  }*/
-  
-  //console.log(referenceToken.balalanceOf(signer))
 
   const toPay = buyOffer * buyOfferAmount;
   const formatedPay = toPay.toString();
 
-  //console.log(ethers.utils.parseEther('1000').toString())
 
-  async function handleSellOffer() {
-    //const result = await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(sellOfferAmount).toString())
-  //await result.wait();
-    const transaction = await writes();
-    await transaction.wait();
-    //write();
-  }
+
+ 
 
   async function handleBuyOffer() {
     const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther('1000').toString())
@@ -146,17 +97,15 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
             <RowLeft value={buyOfferAmount} placeholder = "0" onChange={(e) => setBuyOfferAmount(e.target.value)}></RowLeft>
             <Text>{symbol} for</Text>
             <RowLeft value={buyOffer} placeholder="0" onChange={(e) => setBuyOffer(e.target.value)}></RowLeft>
-            <Text>MATIC</Text>
+            <Text>ROK</Text>
             <Validate onClick={handleBuyOffer}>Validate</Validate>
           </Left>
-          <Right>
-            <TopRight>Sell</TopRight>
-            <RowRight value={sellOfferAmount} placeholder="0" onChange={(e) => setSellOfferAmount(e.target.value)}></RowRight>
-            <Text>{symbol} for</Text>
-            <RowRight value={sellOffer} placeholder = "0" onChange={(e) => setSellOffer(e.target.value)}></RowRight>
-            <Text>MATIC</Text>
-            <Validate onClick={handleSellOffer}>Validate</Validate>
-          </Right>
+          <SellProposal 
+            creatorAddress={creatorAddress}
+            tokenAddress={tokenAddress}
+            symbol={symbol}
+            price={price}
+          />
         </OfferWrapper>
       }
       <Wrapper>
@@ -256,7 +205,7 @@ const Text = styled.text`
   color: #FFFFFF;
 `;
 
-const TopRight = styled(TopLeft)``;
+
 
 const RowLeft = styled.input`
   margin-top: 15px;
@@ -275,7 +224,7 @@ const RowLeft = styled.input`
   align-items: center;
 `;
 
-const RowRight = styled(RowLeft)``;
+
 
 const Left = styled.div`
   height: 100%; 
@@ -286,9 +235,7 @@ const Left = styled.div`
   align-items: center;
 `; 
 
-const Right = styled(Left)`
-  border: none;
-`;
+
 
 const Background = styled.div`
   height: 400px; 
@@ -360,14 +307,3 @@ const Body = styled.div`
   width: 100%;
 `;
 
-const BuyWrap = styled.div`
-  height: 100%; 
-  width: 100%; 
-  background: pink;
-`; 
-
-const SellWrap = styled.div`
-  height: 100%; 
-  width: 100%; 
-  background: red;
-`;
