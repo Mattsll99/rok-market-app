@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import CreateProfil from './CreateProfil';
 import Launch from './Launch';
@@ -9,6 +9,7 @@ import profilInterface from "../contracts/Profil.json";
 import exchangeInterface from "../contracts/Exchange.json"
 import {useAccount} from "wagmi";
 import Bottomdashboard from './Bottomdashboard';
+
 
 let name; 
 let youtubeLink;
@@ -35,60 +36,22 @@ function Dashboard() {
     watch: true,
   })
 
-  /*const {tokenData, isTokenError, isTokenLoading} = useContractRead({
-    address: '0xBbB9CEfBcf0f4B2527Dc147840642d8Efdf55235', 
-    abi: profilInterface, 
-    functionName: "seeProfil",
-    signerOrProvider: provider, 
-    args: [address], 
-    watch: true,
-  })*/
+  const [Show, setShow] = useState(false)
 
-  //0x09d68de4A710dD5c7fE5f891C686667B7fD23849
+  const showMenu = () => {
+    setShow(true);
+  }
 
-  /*useEffect(() => {
-    if (isDisconnected === false) {
-      name = data._name;
-      youtubeLink = data._youtubeLink;
-      instaLink = data._instaLink; 
-      twitterLink = data._twitterLink; 
-      tiktokLink = data._tiktokLink; 
-      onlyfansLink = data._onlyfansLink;
-      //tokenBalance = tokenData;
-    } else {
-      name =""; 
-      youtubeLink = ""; 
-      instaLink = ""; 
-      twitterLink = ""; 
-      tiktokLink = ""; 
-      onlyfansLink = "";
-    }
-  }, [])*/
+  const hideMenu = () => {
+    setShow(false);
+  }
 
-  //console.log(tokenData)
+  
+ 
+  //var userNotConnected;
+  console.log(window.innerWidth);
 
-  //console.log(data)
-
-  /*name = data._name;
-  youtubeLink = data._youtubeLink;
-  instaLink = data._instaLink; 
-  twitterLink = data._twitterLink; 
-  tiktokLink = data._tiktokLink; 
-  onlyfansLink = data._onlyfansLink; */
-  var userNotConnected;
-
-  //console.log(twitterLink);
-
- //console.log(data)
-  /*if(userNotConnected=== true) {
-    return (
-      <Container>
-        <CreateProfil />
-      </Container>
-    )
-  }*/
-
-  if (isDisconnected === false && data !== undefined) {
+  if (window.innerWidth >= 930 && isDisconnected === false && data !== undefined) {
       return (
         <Container>
           <TopDashboard />
@@ -96,18 +59,65 @@ function Dashboard() {
         </Container>
       )
   }
-  else if (isDisconnected === false && data == undefined){
+  else if (window.innerWidth >= 930 && isDisconnected === false && data == undefined){
     return (
        <Container>
           <CreateProfil />
         </Container>
     )
   }
-  else {
+  else if (window.innerWidth >= 930) {
       return (
         <Container>
           <CreateProfil />
         </Container>
+      )
+    }
+    else if (window.innerWidth < 930 && isDisconnected === false && data !== undefined) {
+      return(
+        <Wrap>
+        <MenuBox onClick={showMenu}>Menu</MenuBox>
+        {Show == true &&
+          <MenuWrapper>
+            <CloseButton onClick={hideMenu}>Close</CloseButton>
+            <Container>
+            <TopDashboard />
+            <Launch />
+            </Container>
+          </MenuWrapper>
+        }
+        </Wrap>
+      )
+    }
+
+    else if (window.innerWidth < 930 && isDisconnected === false && data == undefined) {
+      return (
+        <Wrap>
+        <MenuBox onClick={showMenu}>Menu</MenuBox>
+        {Show == true &&
+          <MenuWrapper>
+            <CloseButton onClick={hideMenu}>Close</CloseButton>
+            <Container>
+            <CreateProfil />
+            </Container>
+          </MenuWrapper>
+        }
+        </Wrap>
+      )
+    }
+    else {
+      return (
+        <Wrap>
+        <MenuBox onClick={showMenu}>Menu</MenuBox>
+        {Show == true &&
+          <MenuWrapper>
+            <CloseButton onClick={hideMenu}>Close</CloseButton>
+            <Container>
+            <CreateProfil />
+            </Container>
+          </MenuWrapper>
+        }
+        </Wrap>
       )
     }
   }
@@ -115,6 +125,7 @@ function Dashboard() {
 
 export default Dashboard
 
+// <TopDashboard />
 const Container = styled.div`
   height: 600px;
   width: 300px;
@@ -127,7 +138,60 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 10px;
+  @media(max-width: 930px) {
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto;
+    top: 90px;
+  }
 `;
+
+const MenuBox= styled.div`
+  height :60px; 
+  width: 140px; 
+  background: #3B3395;
+  position: absolute;
+  top: 120px;
+  right:0;
+  border-top-left-radius: 100px; 
+  border-bottom-left-radius: 100px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF; 
+  font-family: abril fatface; 
+  font-size: 30px;
+  font-weight: 300;
+  cursor: pointer; 
+  &:hover {
+    background: #212121; 
+  }
+`;
+
+const CloseButton = styled.div`
+  height :60px; 
+  width: 140px; 
+  background: #3B3395;
+  position: absolute;
+  top: 10px;
+  right:0;
+  border-top-left-radius: 100px; 
+  border-bottom-left-radius: 100px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF; 
+  font-family: abril fatface; 
+  font-size: 30px;
+  font-weight: 300;
+  cursor: pointer; 
+  &:hover {
+    background: #212121; 
+  }
+`;
+
+const Wrap = styled.div``;
 
 const Button = styled.div`
   height: 50px; 
@@ -201,3 +265,18 @@ const Text = styled.text`
   font-weight: 400;
   margin-top: 20px;
 `;
+
+const MenuWrapper = styled.div`
+  position: absolute; 
+  height: 100vh; 
+  width: 100vw; 
+  z-index: 6;
+  top: 0; 
+  left: 0;
+  background: rgba( 33, 33, 33, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 6px );
+  //border: 1px solid rgba( 255, 255, 255, 0.18 );
+`; 
+

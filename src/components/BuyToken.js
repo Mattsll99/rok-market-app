@@ -8,13 +8,14 @@ import { useAccount } from 'wagmi'
 import { erc20ABI } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
 import ROKInterface from '../contracts/ROK.json'
+import BuyTokenFrom from './BuyTokenFrom'
 //https://ethereum.stackexchange.com/questions/141613/wagmi-usewaitfortransaction-not-waiting-long-enough
 
 
 //Utiliser le même fonctionnement avec mappingvia address token
 function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
 
-  const referenceTokenAddress = '0x0000000000000000000000000000000000001010';
+  //const [showBuyFrom, setShowBuyFrom] = useState(false);
 
   const provider = useProvider();
   const { data: signer, isSignerError, isSignerLoading } = useSigner()
@@ -41,6 +42,19 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
     signerOrProvider: signer,
   })
 
+  const handleBuyFrom = () => {
+    setShowBuy(true);
+  }
+
+  //var sellerAddress;
+
+  function handleBuyFromBis(_sellerAddress) {
+    //sellerAddress = _sellerAddress
+    setShowBuy(true)
+  }
+
+  const [tokenPrice, setTokenPrice] =useState("")
+
 
   const displayBuy = () => {
     setShowBuy(true);
@@ -53,17 +67,6 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
   const handleChange = (event) => {
     setAmount(event.target.value);
   }
-  //Access the price of the token 
-  /*const {data, isError, isLoading} = useContractRead({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
-    abi: exchangeInterface,
-    functionName: "getDeployerData", 
-    signerOrProvider: provider, 
-    args: [creatorAddress],
-    watch: true,
-  })*/
-
-  //(typeof supply !== 'undefined' && supply.toString() !== "")? ethers.utils.parseEther(supply).toString() : "0",
 
   const {config} = usePrepareContractWrite({
     address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
@@ -101,30 +104,20 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
     await transaction.wait();
   }
 
-  /*{
-    data?.map((proposal, i) => (
-      <Row>
-        <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
-        <Button>Sell</Button>
-      </Row>
-    ))
-  }*/
-
-  //console.log(offerData)
-
 
   return (
     <Container>
       <Top>For {price} ROK
       <TopButton onClick={displayBuy}>Buy</TopButton>
       {showBuy === true &&
-        <BuyContainer>
-          <Cross onClick={hideBuy}>Close</Cross>
-          <Title>Amount</Title>
-          <BuyCover value={amount} placeholder = "0" onChange={handleChange}></BuyCover>
-          <Display> {amount * price} ROK</Display>
-          <BuyButton onClick={buyTheTokenBis}>Validate</BuyButton>
-      </BuyContainer>
+      <Wrap>
+        <Cross onClick={hideBuy}>Close</Cross>
+        <BuyTokenFrom
+          creatorAddress={creatorAddress}
+          price={price}
+          tokenAddress={tokenAddress}
+        />
+      </Wrap>
       }
       </Top>
       <Wrapper>
@@ -136,7 +129,7 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
         data?.map((proposal, i) => (
         <Row>
           <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
-          <BodyButton>Buy</BodyButton>
+          <BodyButton onClick={handleBuyFrom}>Buy</BodyButton>
         </Row>
     ))
   }
@@ -145,13 +138,6 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
   )
 }
 
-/*<BuyContainer>
-        <Cross>Close</Cross>
-        <Title>Amount</Title>
-        <BuyCover></BuyCover>
-        <Display>MATIC</Display>
-        <BuyButton>Validate</BuyButton>
-      </BuyContainer>*/
 
 export default BuyToken
 
@@ -162,6 +148,16 @@ const Container = styled.div`
   overflow: scroll;
   position: relative;
 `;
+
+const Wrap = styled.div`
+  height: 100%; 
+  width: 100%; 
+  position: absolute;
+  top: 0; 
+  bottom: 0; 
+  margin-top: auto; 
+  margin-bottom: auto;
+`; 
 
 const BuyContainer = styled.div`
   height: 98%; 
@@ -181,6 +177,7 @@ const Cross = styled.div`
   position: absolute; 
   top: 10px; 
   right: 30px;
+  z-index: 6;
   height: 40px; 
   width: 140px; 
   background: #FFFFFF; 

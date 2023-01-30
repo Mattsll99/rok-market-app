@@ -144,6 +144,15 @@ const Body = styled.div`
   //position: fixed;
   display: flex; 
   flex-direction: column;
+  @media(max-width: 1199px) {
+    width: 90%;
+  }
+  @media(max-width: 995px) {
+    width: 80%;
+  }
+  @media(max-width: 930px) {
+    width: 90vw;
+  }
 `; 
 
 const Section = styled.div`

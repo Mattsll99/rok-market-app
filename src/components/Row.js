@@ -18,7 +18,7 @@ function Row({creator, symbol, price, creatorAddress, tokenAddress}) {
       <Menu>
         <Section>
           <ProfilPic></ProfilPic>
-          <Name>{creator}</Name>
+          <NameBis>{creator}</NameBis>
         </Section>
         <Section2>
           <Name>{symbol}</Name>
@@ -126,10 +126,17 @@ const Section = styled.div`
   justify-content: start; 
   align-items: center;
   overflow: scroll;
+  @media(max-width: 1020px) {
+    width: 190px;
+  }
 `; 
 
 const Section2 = styled(Section)`
   justify-content: end;
+  width: 100px;
+  @media(max-width: 990px) {
+    justify-content: center;
+  }
 `;
 
 const ProfilPic = styled.div`
@@ -137,7 +144,8 @@ const ProfilPic = styled.div`
   width: 44px; 
   border-radius: 88px;
   background: rgb(219,0,91);
-  background: linear-gradient(137deg, rgba(219,0,91,1) 0%, rgba(209,86,26,1) 33%, rgba(0,11,255,1) 100%, rgba(255,0,247,1) 100%);   
+  background: linear-gradient(137deg, rgba(219,0,91,1) 0%, rgba(209,86,26,1) 33%, rgba(0,11,255,1) 100%, rgba(255,0,247,1) 100%);  
+  
 `;
 
 const Name = styled.text`
@@ -147,6 +155,12 @@ const Name = styled.text`
   margin-left: 10px;
   font-weight: 300;
 `; 
+
+const NameBis = styled(Name)`
+  @media(max-width: 1090px) {
+  } 
+`;
+
 
 const Button = styled.div`
   height: 50px; 
