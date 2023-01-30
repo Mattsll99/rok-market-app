@@ -9,14 +9,16 @@ function Header() {
   return (
     <Container>
       <Logo>ROK</Logo>
+      <Wrapper>
       <Faucet />
       <ConnectButton
         showBalance={false}
       />
+      </Wrapper>
     </Container>
   )
 }
-
+//563
 export default Header
 
 const Container = styled.div`
@@ -33,6 +35,20 @@ const Container = styled.div`
   padding-left: 30px; 
   padding-right: 30px;
   z-index: 3;
+`;
+
+const Wrapper = styled.div`
+  display: flex; 
+  flex-direction: row;
+  align-items: center;
+  width: 55%;
+  justify-content: space-between;
+  @media(max-width: 655px) {
+    width: 70%;
+  }
+  @media(max-width: 504px) {
+    display: none;
+  }
 `;
 
 const Logo = styled.text`

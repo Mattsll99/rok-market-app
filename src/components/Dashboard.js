@@ -9,6 +9,8 @@ import profilInterface from "../contracts/Profil.json";
 import exchangeInterface from "../contracts/Exchange.json"
 import {useAccount} from "wagmi";
 import Bottomdashboard from './Bottomdashboard';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Faucet from './Faucet';
 
 
 let name; 
@@ -51,6 +53,7 @@ function Dashboard() {
   //var userNotConnected;
   console.log(window.innerWidth);
 
+  
   if (window.innerWidth >= 930 && isDisconnected === false && data !== undefined) {
       return (
         <Container>
@@ -80,6 +83,10 @@ function Dashboard() {
         {Show == true &&
           <MenuWrapper>
             <CloseButton onClick={hideMenu}>Close</CloseButton>
+            <WrapMenu>
+              <ConnectButton />
+              <Faucet />
+            </WrapMenu>
             <Container>
             <TopDashboard />
             <Launch />
@@ -97,6 +104,10 @@ function Dashboard() {
         {Show == true &&
           <MenuWrapper>
             <CloseButton onClick={hideMenu}>Close</CloseButton>
+            <WrapMenu>
+              <ConnectButton />
+              <Faucet />
+            </WrapMenu>
             <Container>
             <CreateProfil />
             </Container>
@@ -112,6 +123,10 @@ function Dashboard() {
         {Show == true &&
           <MenuWrapper>
             <CloseButton onClick={hideMenu}>Close</CloseButton>
+            <WrapMenu>
+              <ConnectButton />
+              <Faucet />
+            </WrapMenu>
             <Container>
             <CreateProfil />
             </Container>
@@ -148,6 +163,18 @@ const Container = styled.div`
   }
 `;
 
+const WrapMenu = styled.div`
+  display: flex; 
+  flex-direction: row; 
+  align-items: center;
+  position: absolute; 
+  top: 10px; 
+  left: 0;
+  width: 65%;
+  justify-content: space-between;
+  padding-left: 10px;
+`;
+
 const MenuBox= styled.div`
   height :60px; 
   width: 140px; 
@@ -167,6 +194,10 @@ const MenuBox= styled.div`
   cursor: pointer; 
   &:hover {
     background: #212121; 
+  }
+  @media(max-width: 504px) {
+    top: 25px;
+    z-index: 5;
   }
 `;
 
