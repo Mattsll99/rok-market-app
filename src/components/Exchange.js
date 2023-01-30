@@ -159,6 +159,9 @@ const Body = styled.div`
     align-items: center;
     padding-right: 10px;
   }
+  @media(max-width: 411px) {
+    width: 411px;
+  }
 `; 
 
 const Section = styled.div`
