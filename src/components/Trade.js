@@ -250,6 +250,13 @@ const Background = styled.div`
     background: #212121;
     color: #FFFFFF; 
   }
+  @media(max-width: 644px) {
+    width: 95%;
+  }
+  @media(max-width: 519px) {
+    width: 500px;
+    margin-top: 140px;
+  }
 `; 
 
 const BigTitle = styled.text`
@@ -277,6 +284,13 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   z-index: 5;
+  @media(max-width: 644px) {
+    width: 95%;
+  }
+  @media(max-width: 519px) {
+    width: 500px;
+    margin-top: 10px;
+  }
 `; 
 
 const Top = styled.div`
