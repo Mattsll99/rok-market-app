@@ -61,6 +61,9 @@ const Container = styled.div`
     background: #212121; 
     color: #FFFFFF;
   }
+  @media(max-width: 525px) {
+    padding: 0;
+  }
 `; 
 
 const CloseButton = styled.div`
@@ -129,6 +132,9 @@ const Section = styled.div`
   @media(max-width: 1020px) {
     width: 190px;
   }
+  @media(max-width: 530px) {
+    width: 150px;
+  }
 `; 
 
 const Section2 = styled(Section)`
@@ -145,7 +151,9 @@ const ProfilPic = styled.div`
   border-radius: 88px;
   background: rgb(219,0,91);
   background: linear-gradient(137deg, rgba(219,0,91,1) 0%, rgba(209,86,26,1) 33%, rgba(0,11,255,1) 100%, rgba(255,0,247,1) 100%);  
-  
+  @media(max-width: 525px) {
+    display: none; 
+  }
 `;
 
 const Name = styled.text`
