@@ -71,6 +71,7 @@ const Container = styled.div`
   width: 100vw; 
   height: 100vh;
   //height: auto;
+  //height: auto;
   padding-top: 150px;
   text-align: center;
   background: #DCCFAC;
