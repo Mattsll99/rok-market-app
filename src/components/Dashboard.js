@@ -132,7 +132,7 @@ const Container = styled.div`
   background: #3B3395;
   position: fixed; 
   right: 30px;
-  top: 150px;
+  top: 100px;
   border-radius: 50px;
   display: flex; 
   flex-direction: column;

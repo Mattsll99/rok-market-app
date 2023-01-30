@@ -89,6 +89,10 @@ const Container = styled.div`
   flex-direction: row; 
   padding: 30px;
   //position: relative;
+  @media(max-width: 930px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `; 
 
 const Left = styled.div`
@@ -151,7 +155,9 @@ const Body = styled.div`
     width: 80%;
   }
   @media(max-width: 930px) {
-    width: 90vw;
+    width: 100vw;
+    align-items: center;
+    padding-right: 10px;
   }
 `; 
 
