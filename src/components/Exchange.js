@@ -30,7 +30,7 @@ function Exchange() {
   //0x1Dc419f50b9192927cA34f4b4C96c13814b365B7
 
   const {data, isError, isLoading} = useContractRead({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    address: '0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', 
     abi: exchangeInterface,
     functionName: "getAllDeployers", 
     signerOrProvider: provider, 

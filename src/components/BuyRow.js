@@ -16,7 +16,7 @@ function BuyRow({creatorAddress, sellerAddress, tokenAddress, symbol, amount, pr
 
   return (
     <Wrap>
-    {showBuyFrom === true &&
+       {showBuyFrom === true &&
     <Wrapper>
       <Cross onClick={hideBuyFrom}>Close</Cross>
       <BuyTokenFrom 
@@ -50,12 +50,14 @@ const Container = styled.div`
 
 const Wrap = styled.div``;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 const Cross = styled.div`
-  position: absolute; 
-  top: 10px; 
-  right: 30px;
+  position: fixed; 
+  top: 260px; 
+  right: 450px;
   z-index: 6;
   height: 40px; 
   width: 140px; 

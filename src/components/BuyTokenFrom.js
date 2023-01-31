@@ -20,7 +20,7 @@ function BuyTokenFrom({creatorAddress, sellerAddress, tokenAddress, price}) {
   })
 
   const {config} = usePrepareContractWrite({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    address: '0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', 
     abi: exchangeInterface, 
     functionName: 'buyTokenFrom', 
     signerOrProvider: signer,
@@ -34,7 +34,7 @@ function BuyTokenFrom({creatorAddress, sellerAddress, tokenAddress, price}) {
   }
 
   async function handleBuy() {
-    //const allowance = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', BigNumber.from('1000000000000000000000'))
+    //const allowance = await ROK.connect(signer).approve('0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', BigNumber.from('1000000000000000000000'))
     //await allowance.wait()
     const tx = await write()
     await tx.wait();
@@ -53,13 +53,19 @@ function BuyTokenFrom({creatorAddress, sellerAddress, tokenAddress, price}) {
 export default BuyTokenFrom
 
 const BuyContainer = styled.div`
-  height: 98%; 
-  width: 100%; 
+  //height: 100%; 
+  //width: 100%; 
+  height: 300px;
+  width: 600px;
   background: #212121;
   border-radius: 50px;
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: -22px;
   bottom: 0; 
+  left: 0;
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
   margin-top: auto; 
   margin-bottom: auto;
   z-index: 5;

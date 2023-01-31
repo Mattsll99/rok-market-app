@@ -57,7 +57,7 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
 
 
   const {config} = usePrepareContractWrite({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    address: '0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', 
     abi: exchangeInterface, 
     functionName: 'makeBuyProposal', 
     signerOrProvider: signer,
@@ -76,7 +76,7 @@ function Trade({creatorAddress, tokenAddress, symbol, price}) {
  
 
   async function handleBuyOffer() {
-    const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther('1000').toString())
+    const result = await ROK.connect(signer).approve('0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', ethers.utils.parseEther('1000').toString())
     await result.wait();
     const transaction = await write();
     await transaction.wait();

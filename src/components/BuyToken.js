@@ -70,7 +70,7 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
   }
 
   const {config} = usePrepareContractWrite({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    address: '0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', 
     abi: exchangeInterface, 
     functionName: 'directBuy', 
     signerOrProvider: signer,
@@ -83,13 +83,13 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
 
   const buyTheToken = () => {
     //await ROK.connect(address).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString()); 
-    ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString())
+    ROK.connect(signer).approve('0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', ethers.utils.parseEther(amount).toString())
     write();
   }
 
 
   const {data, isofferError, isOfferLoading} = useContractRead({
-    address: '0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', 
+    address: '0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', 
     abi: exchangeInterface,
     functionName: "seeSellProposalsForToken", 
     signerOrProvider: provider, 
@@ -99,7 +99,7 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
  
   async function buyTheTokenBis() {
    //await creatorToken.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString())
-    const result = await ROK.connect(signer).approve('0x1Dc419f50b9192927cA34f4b4C96c13814b365B7', ethers.utils.parseEther(amount).toString()); 
+    const result = await ROK.connect(signer).approve('0x0d719247AdA0053c7aD37AB4B1Da5FaE1e2a9151', ethers.utils.parseEther(amount).toString()); 
     await result.wait(); 
     const transaction = await write();
     await transaction.wait();
@@ -321,6 +321,7 @@ const Wrapper = styled.div`
   display: flex; 
   flex-direction: column;
   overflow-y: scroll;
+  //position: fixed;
 `; 
 
 const Row = styled.div`
