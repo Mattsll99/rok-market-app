@@ -178,10 +178,14 @@ const Button = styled.div`
   display: flex; 
   justify-content: center; 
   align-items: center;
+  margin-left: -10px;
   color: #FFFFFF;
   cursor: pointer; 
   &:hover {
     background: #FFFFFF; 
     color: #3B3395;
+  }
+  @media(max-width: 486px) {
+    margin-left: -20px;
   }
 `;

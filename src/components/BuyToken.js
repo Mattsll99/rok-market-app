@@ -8,6 +8,7 @@ import { useAccount } from 'wagmi'
 import { erc20ABI } from 'wagmi'
 import exchangeInterface from '../contracts/Exchange.json';
 import ROKInterface from '../contracts/ROK.json'
+import BuyRow from './BuyRow'
 import BuyTokenFrom from './BuyTokenFrom'
 //https://ethereum.stackexchange.com/questions/141613/wagmi-usewaitfortransaction-not-waiting-long-enough
 
@@ -109,16 +110,7 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
     <Container>
       <Top>For {price} ROK
       <TopButton onClick={displayBuy}>Buy</TopButton>
-      {showBuy === true &&
-      <Wrap>
-        <Cross onClick={hideBuy}>Close</Cross>
-        <BuyTokenFrom
-          creatorAddress={creatorAddress}
-          price={price}
-          tokenAddress={tokenAddress}
-        />
-      </Wrap>
-      }
+      
       </Top>
       <Wrapper>
         <Row>
@@ -127,10 +119,14 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
         </Row>
         {
         data?.map((proposal, i) => (
-        <Row>
-          <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
-          <BodyButton onClick={handleBuyFrom}>Buy</BodyButton>
-        </Row>
+        <BuyRow 
+          creatorAddress={creatorAddress}
+          sellerAddress={proposal._sellerAddress}
+          tokenAddress={proposal._tokenAddress}
+          amount={ethers.utils.formatEther(proposal._amount).toString()}
+          price={ethers.utils.formatEther(proposal._price).toString()}
+          symbol={symbol}
+        />
     ))
   }
       </Wrapper>
@@ -138,6 +134,23 @@ function BuyToken({creatorAddress, tokenAddress, symbol, price}) {
   )
 }
 
+/*<Row>
+          <Cover>{ethers.utils.formatEther(proposal._amount).toString()} {symbol} for {ethers.utils.formatEther(proposal._price).toString()} ROK</Cover>
+          <BodyButton onClick={handleBuyFrom}>Buy</BodyButton>
+        </Row>*/
+
+
+
+        /*{showBuy === true &&
+          <Wrap>
+            <Cross onClick={hideBuy}>Close</Cross>
+            <BuyTokenFrom
+              creatorAddress={creatorAddress}
+              price={price}
+              tokenAddress={tokenAddress}
+            />
+          </Wrap>
+          }*/
 
 export default BuyToken
 
@@ -159,7 +172,7 @@ const Wrap = styled.div`
   margin-bottom: auto;
 `; 
 
-const BuyContainer = styled.div`
+/*const BuyContainer = styled.div`
   height: 98%; 
   margin-top: 235px;
   width: 100%; 
@@ -171,7 +184,7 @@ const BuyContainer = styled.div`
   flex-direction: column; 
   align-items: center;
   padding: 10px;
-`; 
+`;*/ 
 
 const Cross = styled.div`
   position: absolute; 
@@ -193,14 +206,14 @@ const Cross = styled.div`
 
 `; 
 
-const Title = styled.text`
+/*const Title = styled.text`
   font-size: 25px; 
   font-family: roboto mono; 
   font-weight: 300; 
   color: #FFFFFF;
-`;
+`;*/
 
-const BuyCover = styled.input`
+/*const BuyCover = styled.input`
   height: 60px; 
   width: 160px;
   display: flex; 
@@ -219,7 +232,7 @@ const BuyCover = styled.input`
   font-size:25px; 
   color: #FFFFFF; 
   font-weight: 300;
-`; 
+`;*/ 
 
 const Display = styled.text`
   font-family: roboto mono; 
@@ -229,7 +242,7 @@ const Display = styled.text`
   margin-top: 20px;
 `;
 
-const BuyButton = styled.div`
+/*const BuyButton = styled.div`
   height: 50px; 
   width: 150px; 
   background: #FFFFFF; 
@@ -248,9 +261,9 @@ const BuyButton = styled.div`
     border: solid 2px #FFFFFF;
     color: #FFFFFF;
   }
-`;
+`;*/
 
-const BodyButton = styled.div`
+/*const BodyButton = styled.div`
   height: 80%; 
   width: 120px; 
   background: #FFFFFF; 
@@ -270,7 +283,7 @@ const BodyButton = styled.div`
     background: #212121; 
     color: #FFFFFF;
   }
-`; 
+`; */
 
 const Cover = styled.div`
   height: 70%; 

@@ -157,7 +157,7 @@ const Body = styled.div`
   @media(max-width: 930px) {
     width: 100vw;
     align-items: center;
-    padding-right: 10px;
+    padding-right: 5px;
   }
   @media(max-width: 411px) {
     width: 411px;

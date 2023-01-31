@@ -197,7 +197,7 @@ const MenuBox= styled.div`
   }
   @media(max-width: 504px) {
     top: 25px;
-    z-index: 5;
+    z-index: 3;
   }
 `;
 
